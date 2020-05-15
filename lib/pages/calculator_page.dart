@@ -193,78 +193,88 @@ class _CalculatorPageState extends State<CalculatorPage> {
   _buildForm(){
     return SingleChildScrollView(
       padding: EdgeInsets.symmetric(horizontal: 16.0),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            _buildTitle('Informações do boleto'),
-            _buildMoneyInputField(
-              'Valor do boleto',
-              controller: _controller.moneyController,
-              onSaved: (value){
-                _controller.paymentSlip.money = _controller.moneyController.numberValue;
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient( 
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [Colors.cyan, Colors.blueAccent]
+          ),
+        ),
+      
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              _buildTitle('Informações do boleto'),
+              _buildMoneyInputField(
+                'Valor do boleto',
+                controller: _controller.moneyController,
+                onSaved: (value){
+                  _controller.paymentSlip.money = _controller.moneyController.numberValue;
+                },
+              ),
+              _buildDataInputField(
+                'Data de vencimento',
+                onSaved: (date) {
+                  _controller.paymentSlip.dueDate = date;
               },
-            ),
-            _buildDataInputField(
-              'Data de vencimento',
-              onSaved: (date) {
-                _controller.paymentSlip.dueDate = date;
-             },
-            ),
-            _buildDataInputField(
-              'Data de pagamento',
-              onSaved: (date) {
-                _controller.paymentSlip.payDate = date;
-             },
-            ),
-            _buildTitle('Multa'),
-            _buildMoneyInputField(
-              'Valor da multa',
-              controller: _controller.feeController,
-              onSaved: (value){
-                _controller.paymentSlip.feeValue = _controller.feeController.numberValue;
-             },
-            ),
-            _buildRateRadioButton(
-              onChanged: (value) {
-                _controller.paymentSlip.feeType = value;
+              ),
+              _buildDataInputField(
+                'Data de pagamento',
+                onSaved: (date) {
+                  _controller.paymentSlip.payDate = date;
               },
-            ),
-            _buildTitle('Juros'),
-            _buildMoneyInputField(
-              'Valor do juros',
-              controller: _controller.interestController,
-              onSaved: (value){
-                  _controller.paymentSlip.interestValue = _controller.interestController.numberValue;
+              ),
+              _buildTitle('Multa'),
+              _buildMoneyInputField(
+                'Valor da multa',
+                controller: _controller.feeController,
+                onSaved: (value){
+                  _controller.paymentSlip.feeValue = _controller.feeController.numberValue;
               },
-            ),
-            _buildRateRadioButton(
-              onChanged: (value) {
-                _controller.paymentSlip.interestType = value;
-              },
-            ),
-            _buildPeriodRadioButton(
-              onChanged: (value) {
-                _controller.paymentSlip.interestPeriod = value;
-              },
-            ),
-            _buildRoundedButton(
-              'CALCULAR', 
-              padding: EdgeInsets.only(top: 32.0),
-              onTap: (){
-                if (_formKey.currentState.validate()){
-                  _formKey.currentState.save();
-                  var result = _controller.calculate();
-                  _showResultDialog(result);
+              ),
+              _buildRateRadioButton(
+                onChanged: (value) {
+                  _controller.paymentSlip.feeType = value;
+                },
+              ),
+              _buildTitle('Juros'),
+              _buildMoneyInputField(
+                'Valor do juros',
+                controller: _controller.interestController,
+                onSaved: (value){
+                    _controller.paymentSlip.interestValue = _controller.interestController.numberValue;
+                },
+              ),
+              _buildRateRadioButton(
+                onChanged: (value) {
+                  _controller.paymentSlip.interestType = value;
+                },
+              ),
+              _buildPeriodRadioButton(
+                onChanged: (value) {
+                  _controller.paymentSlip.interestPeriod = value;
+                },
+              ),
+              _buildRoundedButton(
+                'CALCULAR', 
+                padding: EdgeInsets.only(top: 32.0),
+                onTap: (){
+                  if (_formKey.currentState.validate()){
+                    _formKey.currentState.save();
+                    var result = _controller.calculate();
+                    _showResultDialog(result);
+                  }
                 }
-              }
-            ),
-            _buildRoundedButton(
-              'LIMPAR', 
-              padding: EdgeInsets.symmetric(vertical: 8.0),
-            ),
-          ],
+              ),
+              _buildRoundedButton(
+                'LIMPAR', 
+                padding: EdgeInsets.symmetric(vertical: 8.0),
+              ),
+            ],
+          ),
         ),
       ),
     );
