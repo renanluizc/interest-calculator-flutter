@@ -38,10 +38,14 @@ class _CalculatorPageState extends State<CalculatorPage> {
         ), 
         IconButton (
           icon: Icon(Icons.info),
-          onPressed: (){},
+          onPressed: (){_showAboutDialog();},
         ),
       ],
     );
+  }
+
+  _showAboutDialog(){
+    
   }
 
   _buildTitle(String title, {double top = 16, double bottom = 8}){
