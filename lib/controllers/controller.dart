@@ -38,7 +38,7 @@ class Controller {
   }
 
   ResultPaymentSlip calculate(){
-    ResultPaymentSlip result = new ResultPaymentSlip();
+    ResultPaymentSlip result = ResultPaymentSlip();
     result.value = paymentSlip.money;
 
     var payDate = DateTime(paymentSlip.payDate.year, paymentSlip.payDate.month, paymentSlip.payDate.day);
@@ -61,5 +61,9 @@ class Controller {
     }
 
     return result;
+  }
+
+  void clear() {
+    
   }
 }

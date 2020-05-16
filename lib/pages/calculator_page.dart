@@ -13,7 +13,7 @@ class CalculatorPage extends StatefulWidget {
 }
 
 class _CalculatorPageState extends State<CalculatorPage> {
-
+  final _inputFieldHeight = 60.0;
   final _formKey = GlobalKey<FormState>();
   final _dateFormat = DateFormat('dd/MM/yyyy');
   final _moneyFormat = NumberFormat('#,##0.00', 'pt_BR');
@@ -57,25 +57,29 @@ class _CalculatorPageState extends State<CalculatorPage> {
     );
   }
 
+   _roundedInputDecoration() {
+    return OutlineInputBorder(
+      borderRadius: BorderRadius.circular(_inputFieldHeight * 0.5),
+    );
+  }
+
   _buildMoneyInputField(String label, {MoneyMaskedTextController controller, Function(String) onSaved}){
     return Container(
       padding: EdgeInsets.symmetric(vertical: 8.0),
-      height: 60.0,
+      height: _inputFieldHeight,
       child: TextFormField(
         controller: controller,
         keyboardType: TextInputType.number,
         onSaved: onSaved,
         decoration: InputDecoration(
           labelText: label,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30.0),
-          ),
+          border: _roundedInputDecoration(),
         ),
       ),
     );
   }
 
-  _buildRateRadioButton({Function(dynamic) onChanged}){
+  _buildRateRadioButton(BuildContext context, {Function(dynamic) onChanged}){
     return CustomRadioButton(
       enableShape: true,
       elevation: 0,
@@ -87,7 +91,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
     );
   }
 
-  _buildPeriodRadioButton({Function(dynamic) onChanged}){
+  _buildPeriodRadioButton(BuildContext context, {Function(dynamic) onChanged}){
     return CustomRadioButton(
       enableShape: true,
       elevation: 0,
@@ -117,15 +121,13 @@ class _CalculatorPageState extends State<CalculatorPage> {
         },
         decoration: InputDecoration(
           labelText: label,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30.0),
-          ),
+          border: _roundedInputDecoration(),
         ),
       ),
     );
   }
 
-  _buildRoundedButton(String label, {Function onTap, EdgeInsets padding}){
+  _buildRoundedButton(BuildContext context,{String label = '', Function onTap, EdgeInsets padding}){
     return Padding(
       padding: padding,
       child: InkWell(
@@ -133,7 +135,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
         child: Container(
           height: 52.0,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30.0),
+            borderRadius: BorderRadius.circular(_inputFieldHeight * 0.5),
             color: Theme.of(context).primaryColor,
           ),
           child: Center(
@@ -176,7 +178,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              _buildResultDialogRow('Atraso', '${result.days}'),
+              _buildResultDialogRow('Atraso', '${result.days} ${_controller.paymentSlip.interestPeriod.toLowerCase()}(s)'),
               _buildResultDialogRow('Juros', 'R\$ ${_moneyFormat.format(result.interest)}'),
               _buildResultDialogRow('Multa', 'R\$ ${_moneyFormat.format(result.fee)}'),
               SizedBox(height: 16.0),
@@ -200,8 +202,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
             end: Alignment.bottomLeft,
             colors: [Colors.cyan, Colors.blueAccent]
           ),
-        ),
-      
+        ),      
         child: Form(
           key: _formKey,
           child: Column(
@@ -236,6 +237,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
               },
               ),
               _buildRateRadioButton(
+                context,
                 onChanged: (value) {
                   _controller.paymentSlip.feeType = value;
                 },
@@ -249,17 +251,20 @@ class _CalculatorPageState extends State<CalculatorPage> {
                 },
               ),
               _buildRateRadioButton(
+                context,
                 onChanged: (value) {
                   _controller.paymentSlip.interestType = value;
                 },
               ),
               _buildPeriodRadioButton(
+                context,
                 onChanged: (value) {
                   _controller.paymentSlip.interestPeriod = value;
                 },
               ),
               _buildRoundedButton(
-                'CALCULAR', 
+                context,
+                label: 'CALCULAR', 
                 padding: EdgeInsets.only(top: 32.0),
                 onTap: (){
                   if (_formKey.currentState.validate()){
@@ -267,11 +272,17 @@ class _CalculatorPageState extends State<CalculatorPage> {
                     var result = _controller.calculate();
                     _showResultDialog(result);
                   }
-                }
+                },
               ),
               _buildRoundedButton(
-                'LIMPAR', 
+                context,
+                label: 'LIMPAR', 
                 padding: EdgeInsets.symmetric(vertical: 8.0),
+                 onTap: () {
+                  setState(() {
+                    _controller.clear();
+                  });
+                },
               ),
             ],
           ),
