@@ -1,5 +1,7 @@
 import 'package:custom_radio_grouped_button/CustomButtons/CustomRadioButton.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:dynamic_theme/dynamic_theme.dart';
+import 'package:dynamic_theme/theme_switcher_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:intl/intl.dart';
@@ -34,18 +36,28 @@ class _CalculatorPageState extends State<CalculatorPage> {
       actions: <Widget>[
         IconButton(
           icon: Icon(Icons.lightbulb_outline),
-          onPressed: (){},
+          onPressed: (){
+            _buildChooser();
+          },
         ), 
         IconButton (
           icon: Icon(Icons.info),
-          onPressed: (){_showAboutDialog();},
+          onPressed: (){},
         ),
       ],
     );
   }
 
-  _showAboutDialog(){
-    
+  _buildChooser(){
+    showDialog(context: context,
+      builder: (context) {
+        return BrightnessSwitcherDialog(
+          onSelectedTheme: (brightness) {
+            DynamicTheme.of(context).setBrightness(brightness);
+          },
+        );
+      }
+    );
   }
 
   _buildTitle(String title, {double top = 16, double bottom = 8}){

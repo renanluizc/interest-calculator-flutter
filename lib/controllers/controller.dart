@@ -63,7 +63,9 @@ class Controller {
     return result;
   }
 
-  void clear() {
-    
+  void clear(){
+    moneyController.clear();
+    feeController.clear();
+    interestController.clear();
   }
 }
