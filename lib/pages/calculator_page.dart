@@ -5,6 +5,7 @@ import 'package:dynamic_theme/theme_switcher_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:intl/intl.dart';
+import 'package:juros_calculator/components/dialog.dart';
 import 'package:juros_calculator/controllers/controller.dart';
 import 'package:juros_calculator/helpers/constants.dart';
 import 'package:juros_calculator/models/result_payment_slip.dart';
@@ -42,7 +43,13 @@ class _CalculatorPageState extends State<CalculatorPage> {
         ), 
         IconButton (
           icon: Icon(Icons.info),
-          onPressed: (){},
+          onPressed: (){
+            InformationDialog.show(
+              context,
+              applicationName: 'Calculadora de juros',
+              applicationVersion: '1.0',
+            );
+          },
         ),
       ],
     );
