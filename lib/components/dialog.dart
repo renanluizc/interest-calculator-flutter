@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:juros_calculator/pages/calculator_page.dart';
 
 class InformationDialog {
   static Future show(
@@ -37,10 +37,20 @@ class InformationDialog {
                   color: Colors.white70,
                 ),
               ),
-              FlatButton(
-                child: const Text('SAIR'),
+              FlatButton(                
+                child: Text(
+                  'SAIR',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
                 onPressed: () {
-                  SystemNavigator.pop();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => CalculatorPage()),
+                  );
                 },
               ),
             ],
