@@ -37,24 +37,26 @@ class InformationDialog {
                   color: Colors.white70,
                 ),
               ),
-              FlatButton(                
-                child: Text(
-                  'SAIR',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => CalculatorPage()),
-                  );
-                },
-              ),
             ],
           ),
+          actions: [ 
+            FlatButton(                
+              child: Text(
+                'SAIR',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CalculatorPage()),
+                );
+              },
+            ),
+          ],
         );
       }      
     );
